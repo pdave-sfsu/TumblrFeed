@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		725D9CF40C7BCB7E1C6D0412 /* Pods_TumblrFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB4EF715973779FA09144F2 /* Pods_TumblrFeed.framework */; };
+		A547ECC81E42D682006C0417 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A547ECC71E42D682006C0417 /* PhotoDetailViewController.swift */; };
 		A5F7FF281E2C701300CA400E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F7FF271E2C701300CA400E /* AppDelegate.swift */; };
 		A5F7FF2D1E2C701300CA400E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5F7FF2B1E2C701300CA400E /* Main.storyboard */; };
 		A5F7FF2F1E2C701300CA400E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5F7FF2E1E2C701300CA400E /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		1BF10045A0CA73035E1B70CE /* Pods-TumblrFeed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TumblrFeed.release.xcconfig"; path = "Pods/Target Support Files/Pods-TumblrFeed/Pods-TumblrFeed.release.xcconfig"; sourceTree = "<group>"; };
+		A547ECC71E42D682006C0417 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		A5F7FF241E2C701300CA400E /* TumblrFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumblrFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5F7FF271E2C701300CA400E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5F7FF2C1E2C701300CA400E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				A5F7FF3B1E2C752F00CA400E /* PhotosViewController.swift */,
+				A547ECC71E42D682006C0417 /* PhotoDetailViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 			files = (
 				A5F7FF281E2C701300CA400E /* AppDelegate.swift in Sources */,
 				A5F7FF3C1E2C752F00CA400E /* PhotosViewController.swift in Sources */,
+				A547ECC81E42D682006C0417 /* PhotoDetailViewController.swift in Sources */,
 				A5F7FF401E2C834400CA400E /* PhotosCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
