@@ -128,30 +128,27 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    //prepareForSegue: Segue to another viewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
 
-        var vc = segue.destination as! PhotoDetailViewController
+        //Creating an instance of the PhotoDetailViewController
+        let vc = segue.destination as! PhotoDetailViewController
         
+        //Getting the appropriate index
         var indexPath = tableView.indexPath(for: sender as! UITableViewCell)
         
+        //Retrieving the proper post using the indexPath
         let post = posts[(indexPath?.row)!]
         
+        //Retrieving the proper photo and url
         if let photos = post.value(forKeyPath: "photos") as? [NSDictionary] {
             let imageURLString = (photos[0].value(forKeyPath: "original_size.url") as? String)!
             
             let imageURL = URL(string: imageURLString)
             
+            //Setting the photoURL property in the PhotoDetailViewController to imageURL
             vc.photoURL = imageURL
-            
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
