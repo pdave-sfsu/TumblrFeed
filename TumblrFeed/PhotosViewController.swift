@@ -22,8 +22,11 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
     //refreshControl
     let refreshControl = UIRefreshControl()
     
-    //
+    //boolean value to see if more data is loading
     var isMoreDataLoading = false
+    
+    //An instance of infiniteScrollActivityView
+    var loadingMoreView:InfiniteScrollActivityView?
 
     //viewDidLoad
     override func viewDidLoad() {
@@ -44,6 +47,15 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         //Calling fetchPosts() to retrieve the photos
         fetchPosts()
+        
+        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset;
+        insets.bottom += InfiniteScrollActivityView.defaultHeight;
+        tableView.contentInset = insets
     }
 
     //fetchPosts(): Network call to retrieve the photos
@@ -62,20 +74,22 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     if let responseDictionary = try! JSONSerialization.jsonObject(
                         with: data, options:[]) as? NSDictionary {
                         
-                        
-                        print("responseDictionary: \(responseDictionary)")
-                        
                         //Parsing through the dictionary
                         let responseFieldDictionary = responseDictionary["response"] as! NSDictionary
                         
                         //Retrieving the actual post and saving it in posts property
-                        self.posts = responseFieldDictionary["posts"] as! [NSDictionary]
+                        self.posts += responseFieldDictionary["posts"] as! [NSDictionary]
                         
                         //Reloading tableViewData
                         self.tableView.reloadData()
                         
                         //RefreshControl: Ending Refreshing
                         self.refreshControl.endRefreshing()
+                        
+                        //more data is no longer loading, the property is set to false
+                        self.isMoreDataLoading = false
+                        
+                        self.loadingMoreView!.stopAnimating()
                     }
                 }
         });
@@ -118,12 +132,32 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
+    //scrollViewDidScroll(): Called when the the user scrolls
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        //If more data is not loading, then find more data
+        //If more data is loading, then do nothing
+        //Avoids continuously calling this method and making 100s of network calls
         if (!isMoreDataLoading) {
+            
+            //Get the height of the content
             let scrollViewContentHeight = tableView.contentSize.height
+            
+            //Get particular location where we want to load more data
             let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            //If the contentOffset is greater than the threshold AND the user is dragging, then load more data
             if (scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+                
+                //Change the value to true
                 isMoreDataLoading = true
+                
+                let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                //Call network request to get more posts
+                fetchPosts()
             }
         }
     }
@@ -159,4 +193,40 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
     
+}
+
+class InfiniteScrollActivityView: UIView {
+    var activityIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView()
+    static let defaultHeight:CGFloat = 60.0
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupActivityIndicator()
+    }
+    
+    override init(frame aRect: CGRect) {
+        super.init(frame: aRect)
+        setupActivityIndicator()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        activityIndicatorView.center = CGPoint(x: self.bounds.size.width/2, y: self.bounds.size.height/2)
+    }
+    
+    func setupActivityIndicator() {
+        activityIndicatorView.activityIndicatorViewStyle = .gray
+        activityIndicatorView.hidesWhenStopped = true
+        self.addSubview(activityIndicatorView)
+    }
+    
+    func stopAnimating() {
+        self.activityIndicatorView.stopAnimating()
+        self.isHidden = true
+    }
+    
+    func startAnimating() {
+        self.isHidden = false
+        self.activityIndicatorView.startAnimating()
+    }
 }
