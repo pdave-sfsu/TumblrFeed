@@ -48,11 +48,15 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         //Calling fetchPosts() to retrieve the photos
         fetchPosts()
         
+        //Creating the frame for the infiniteScrollActivityView
         let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
         loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        //Hiding the loadingMoreView
         loadingMoreView!.isHidden = true
+        //Adding the view to the tableView
         tableView.addSubview(loadingMoreView!)
         
+        //
         var insets = tableView.contentInset;
         insets.bottom += InfiniteScrollActivityView.defaultHeight;
         tableView.contentInset = insets
@@ -89,6 +93,7 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         //more data is no longer loading, the property is set to false
                         self.isMoreDataLoading = false
                         
+                        //Stop Animating the loadingMoreView
                         self.loadingMoreView!.stopAnimating()
                     }
                 }
@@ -152,8 +157,10 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 //Change the value to true
                 isMoreDataLoading = true
                 
+                //Setting the frame for the loadingMoreView
                 let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
                 loadingMoreView?.frame = frame
+                //Start animating the loadingMoreView
                 loadingMoreView!.startAnimating()
                 
                 //Call network request to get more posts
@@ -195,6 +202,7 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
 }
 
+//InfiniteScrollView classß
 class InfiniteScrollActivityView: UIView {
     var activityIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView()
     static let defaultHeight:CGFloat = 60.0
