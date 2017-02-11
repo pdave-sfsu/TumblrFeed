@@ -36,7 +36,7 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         //setting the height of the cells
         tableView.rowHeight = 240
 
-        //Adding the refreshControl target
+        //Adding the refreshControl target; Binding the action to the refresh control
         refreshControl.addTarget(self, action: #selector(fetchPosts), for: UIControlEvents.valueChanged)
         
         //Inserting the refreshControl subview
@@ -149,6 +149,9 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
             //Setting the photoURL property in the PhotoDetailViewController to imageURL
             vc.photoURL = imageURL
         }
+        
+        //Deselects the cell with animation
+        tableView.deselectRow(at: indexPath!, animated: true)
     }
     
     override func didReceiveMemoryWarning() {

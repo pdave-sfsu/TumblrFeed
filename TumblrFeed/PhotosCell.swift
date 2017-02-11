@@ -8,10 +8,11 @@
 
 import UIKit
 
+//PhotoCell represents the cell in the tableView of the PhotosViewController
 class PhotosCell: UITableViewCell {
 
+    //photoImageView
     @IBOutlet weak var photoImageView: UIImageView!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()

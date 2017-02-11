@@ -8,24 +8,27 @@
 
 import UIKit
 
+//PhotoDetailViewController is the detail view
 class PhotoDetailViewController: UIViewController {
     
+    //ImageView
     @IBOutlet weak var postImageView: UIImageView!
+    
+    //Property that stores the url for the photo
     var photoURL: URL?
 
+    //viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //sets the imageView to the photo
         postImageView.setImageWith(photoURL!)
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation
